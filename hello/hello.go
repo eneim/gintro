@@ -1,9 +1,9 @@
-// Every file belongs to a package. The package `main` is the entry point of
-// your application and must contain the main() function.
-// Usually, this comment section should have a bried explaination of what your
-// package does, and some additional information as needed. You can consult
-// the golang.org page for more information on coding style.
-package main
+// Package hello provides a single function to implements `hello, world!` program in go.
+//
+// As a convention, package documentation starts with "Package packageName" followed by a brief
+// description of what the package does in one line.
+// You could document further by added more lines of comments before the package name.
+package hello
 
 // imports can be grouped like this.
 // You can also use the import keyword without grouping:
@@ -18,9 +18,9 @@ import (
 	"os"
 )
 
-// In this example, our package is the main package and must have a main() function.
-// The main() function takes no argument and returns nothing.
-func main() {
+// SayHello prints "hello, world!"
+// As a convention, doc strings start with the name of the funtion  you are documenting.
+func SayHello() {
 	// Use the var keyword to declare a variable.
 	// A newly declared varialbe is assigne the zero value of the type it represents.
 	// In this case, name has the string's zero value "".
