@@ -1,4 +1,4 @@
-// Package hello provides a single function to implements `hello, world!` program in go.
+// Package hello provides a single function to implement `hello, world!` program in go
 package hello
 
 import (
@@ -11,7 +11,7 @@ import (
 // it's a type that can hold any number of attributes and you can implement
 // methods on it.
 type Person struct {
-	// An attribute that start Uppuer case is exported.
+	// An attribute that start Uppuercase is exported.
 	FirstName string
 	LastName  string
 }
