@@ -1,44 +1,70 @@
 // Package hello provides a single function to implements `hello, world!` program in go.
-//
-// As a convention, package documentation starts with "Package packageName" followed by a brief
-// description of what the package does in one line.
-// You could document further by added more lines of comments before the package name.
 package hello
 
-// imports can be grouped like this.
-// You can also use the import keyword without grouping:
-//	import "packageA"
-//	import "packageB"
 import (
-	// fmt implements formatted I/O with functions analogous to C's printf and scanf
-	// Try to be familiar with this package as you'll definitely use it frequently
 	"fmt"
-
-	// os provides a platform-independent interface to operating system functionality
 	"os"
 )
 
+// Person represents an individual.
+// struct is the basic type you can define in Go.
+// it's a type that can hold any number of attributes and you can implement
+// methods on it.
+type Person struct {
+	// An attribute that start Uppuer case is exported.
+	FirstName string
+	LastName  string
+}
+
+// SetFirstName assigns a first name to Person
+// function with receivers of types Person or *Person are methods
+// of the type Person.
+// Note that Person and *Person are two differents types, and offer
+// different behaviours when used as receivers:
+//
+//	Person as a receiver means that the method receives a value of the type Person.
+//  When the function is called, a copy of the value will be passed to the function,
+//	As a result, any change you do on the value inside the method will not affect
+// 	or will not be seen by the caller.
+//  On the other hand
+// 	*Person as a receiver means a pointer is passed to the function. Any change you
+//	do inside the function will be seen by the caller.
+func (p *Person) SetFirstName(firstName string) {
+	p.FirstName = firstName
+}
+
+// SetLastName assigns a last name to Person
+func (p *Person) SetLastName(lastName string) {
+	p.FirstName = lastName
+}
+
+// GetFirstName returns the first name
+func (p Person) GetFirstName() string {
+	return p.FirstName
+}
+
+// GetLastName returns the last name
+func (p Person) GetLastName() string {
+	return p.LastName
+}
+
+func (p Person) String() string {
+	return fmt.Sprintf("Person: %s %s", p.GetFirstName(), p.GetLastName())
+}
+
+// Doctor represents an individual who can heal Persons
+type Doctor struct {
+	*Person
+}
+
+func (d Doctor) String() string {
+	return fmt.Sprintf("Doctor: %s %s", d.GetFirstName(), d.GetLastName())
+}
+
 // SayHello prints "hello, world!"
-// As a convention, doc strings start with the name of the funtion  you are documenting.
 func SayHello() {
-	// Use the var keyword to declare a variable.
-	// A newly declared varialbe is assigne the zero value of the type it represents.
-	// In this case, name has the string's zero value "".
-	// Inside a function, we can implicitly declare the type of a variable
-	// with the := operator.
-	//		name := ""
-	// Since "" is the value of a string, go will implicitly declare name as type string
-	// Another example: Suppose we have the following function:
-	//		func getString() string {
-	// 			return "I am a string!"
-	//		}
-	// You could use the := operator to implicitly declare a variable of type string
-	// and assign the returned value of the function, provided you do it inside a function
-	//		str := getString()
 	var name string
 	if len(os.Args) >= 2 {
-		// os.Args is a slice of strings. you can do this assignment only if name was
-		// previously declared as type string. go is a statically typed language!!!
 		name = os.Args[1]
 	} else {
 		name = "World"
