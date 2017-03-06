@@ -6,6 +6,27 @@ import (
 	"os"
 )
 
+// Age represents the age of a Person
+//
+// We can also create our own types based on current types
+// Here we create the type Age as an int.
+type Age int
+
+// SetAge sets the age
+// We can now add methods to our type just like we did with structs
+func (a *Age) SetAge(age int) {
+	*a = Age(age)
+}
+
+// GetAge returns the age
+func (a Age) GetAge() int {
+	return int(a)
+}
+
+func (a Age) String() string {
+	return fmt.Sprintf("%d", int(a))
+}
+
 // Person represents an individual.
 // struct is the basic type you can define in Go.
 // it's a type that can hold any number of attributes and you can implement
@@ -14,6 +35,7 @@ type Person struct {
 	// An attribute that start Uppuercase is exported.
 	FirstName string
 	LastName  string
+	MyAge     Age
 }
 
 // SetFirstName assigns a first name to Person
@@ -101,13 +123,15 @@ func SayHello() {
 		FirstName: firstName,
 		LastName:  lastName,
 	}
+	p.MyAge.SetAge(35)
 
 	d := &Doctor{
 		&Person{},
 	}
 	d.SetFirstName(firstName)
 	d.SetLastName(lastName)
+	d.MyAge.SetAge(35)
 
-	fmt.Printf("Hello, %s\n", p)
-	fmt.Printf("Hello, %s\n", d)
+	fmt.Printf("Hello, %s. Your age is %s.\n", p, p.MyAge)
+	fmt.Printf("Hello, %s. Your age is %s.\n", d, d.MyAge)
 }
