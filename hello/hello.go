@@ -35,10 +35,21 @@ func (p *Person) SetFirstName(firstName string) {
 
 // SetLastName assigns a last name to Person
 func (p *Person) SetLastName(lastName string) {
-	p.FirstName = lastName
+	p.LastName = lastName
 }
 
 // GetFirstName returns the first name
+// *Person is a pointer to Person, but we could still call this method on
+// a pointer: That is:
+//	var p1 Person
+//  p1 = Person{FirstName: Bassirou, LastName: Sarr}
+//  var p2 *Person
+//	p2 = &Person{FirstName: Bassirou, LastName: Sarr}
+//  firstname1 := p1.GetFirstName() // This works
+//  firstname2 := p2.GetFirstName() // This works as well
+// What happens under the hood is that Go will automatically convert the received
+// pointer into a value.
+// In this case, the pointer is automatically be processed like return (&p).FirstName
 func (p Person) GetFirstName() string {
 	return p.FirstName
 }
@@ -49,25 +60,54 @@ func (p Person) GetLastName() string {
 }
 
 func (p Person) String() string {
-	return fmt.Sprintf("Person: %s %s", p.GetFirstName(), p.GetLastName())
+	return fmt.Sprintf("%s %s", p.GetFirstName(), p.GetLastName())
 }
 
 // Doctor represents an individual who can heal Persons
 type Doctor struct {
+	// Go does not support sub-classing, but you could embed a type inside
+	// another type, just like we do here:
+	// We embed type *Person in type Doctor -> Doctor has all the attributes
+	// and methods that *Person has
+	// We can now add other attributes to Doctor, and implement other methods
+	// This is not quite like sub-classing, but that's all you get in go
 	*Person
 }
 
+// Doctor does have anything to do with Person, although we embed Person in Doctor
+// Doctor and Person both have the same method String(), but it's not overriding.
 func (d Doctor) String() string {
-	return fmt.Sprintf("Doctor: %s %s", d.GetFirstName(), d.GetLastName())
+	return fmt.Sprintf("Dr. %s", d.GetLastName())
 }
 
-// SayHello prints "hello, world!"
+// SayHello ...
+// Let's try it out....
 func SayHello() {
-	var name string
-	if len(os.Args) >= 2 {
-		name = os.Args[1]
+	var firstName string
+	var lastName string
+	if len(os.Args) == 3 {
+		firstName = os.Args[1]
+		lastName = os.Args[2]
 	} else {
-		name = "World"
+		firstName = "Bassirou"
+		lastName = "Sarr"
 	}
-	fmt.Printf("Hello, %s!\n", name)
+
+	// let's create a person
+	// In fact, we don't even need to create setters or getters for our objects
+	// We made them accessible by naming them with starting Uppuercase letters.
+	//
+	p := &Person{
+		FirstName: firstName,
+		LastName:  lastName,
+	}
+
+	d := &Doctor{
+		&Person{},
+	}
+	d.SetFirstName(firstName)
+	d.SetLastName(lastName)
+
+	fmt.Printf("Hello, %s\n", p)
+	fmt.Printf("Hello, %s\n", d)
 }
