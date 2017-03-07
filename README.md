@@ -6,3 +6,7 @@ Intro to Golang
 - [How to Write Go Code](https://golang.org/doc/code.html)
 - [Go cross compilation](https://rakyll.org/cross-compilation/)
 - [Effective Go](https://golang.org/doc/effective_go.html)
+
+# Examples
+- [slowpoke](https://github.com/sbcloud/slowpoke)
+- [packet](https://github.com/ebsarr/packet)
